@@ -1,15 +1,15 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace UnexpectedJourney\FilamentToolbox;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class SkeletonPlugin implements Plugin
+class FilamentToolboxPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'filament-toolbox';
     }
 
     public function register(Panel $panel): void
