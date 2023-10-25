@@ -69,7 +69,6 @@
                 "UnexpectedJourney\\FilamentToolbox\\FilamentToolboxServiceProvider"
             ],
             "aliases": {
-                "FilamentToolbox": "UnexpectedJourney\\FilamentToolbox\\Facades\\FilamentToolbox"
             }
         }
     },
