@@ -44,10 +44,6 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
             $package->hasConfigFile();
         }
 
-        if (file_exists($package->basePath('/../database/migrations'))) {
-            $package->hasMigrations($this->getMigrations());
-        }
-
         if (file_exists($package->basePath('/../resources/lang'))) {
             $package->hasTranslations();
         }
@@ -102,8 +98,8 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
     {
         return [
             // AlpineComponent::make('filament-toolbox', __DIR__ . '/../resources/dist/components/filament-toolbox.js'),
-            Css::make('filament-toolbox-styles', __DIR__ . '/../resources/dist/filament-toolbox.css'),
-            Js::make('filament-toolbox-scripts', __DIR__ . '/../resources/dist/filament-toolbox.js'),
+            // Css::make('filament-toolbox-styles', __DIR__ . '/../resources/dist/filament-toolbox.css'),
+            // Js::make('filament-toolbox-scripts', __DIR__ . '/../resources/dist/filament-toolbox.js'),
         ];
     }
 
@@ -137,15 +133,5 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
     protected function getScriptData(): array
     {
         return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getMigrations(): array
-    {
-        return [
-            'create_filament-toolbox_table',
-        ];
     }
 }
