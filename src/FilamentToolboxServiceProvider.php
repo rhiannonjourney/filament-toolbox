@@ -13,7 +13,6 @@ use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use UnexpectedJourney\FilamentToolbox\Commands\FilamentToolboxCommand;
 use UnexpectedJourney\FilamentToolbox\Testing\TestsFilamentToolbox;
 
 class FilamentToolboxServiceProvider extends PackageServiceProvider
@@ -113,9 +112,7 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
      */
     protected function getCommands(): array
     {
-        return [
-            FilamentToolboxCommand::class,
-        ];
+        return [];
     }
 
     /**
