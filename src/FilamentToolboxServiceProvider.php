@@ -13,7 +13,6 @@ use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use UnexpectedJourney\FilamentToolbox\Commands\FilamentToolboxCommand;
 use UnexpectedJourney\FilamentToolbox\Testing\TestsFilamentToolbox;
 
 class FilamentToolboxServiceProvider extends PackageServiceProvider
@@ -43,10 +42,6 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
 
         if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
             $package->hasConfigFile();
-        }
-
-        if (file_exists($package->basePath('/../database/migrations'))) {
-            $package->hasMigrations($this->getMigrations());
         }
 
         if (file_exists($package->basePath('/../resources/lang'))) {
@@ -103,8 +98,8 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
     {
         return [
             // AlpineComponent::make('filament-toolbox', __DIR__ . '/../resources/dist/components/filament-toolbox.js'),
-            Css::make('filament-toolbox-styles', __DIR__ . '/../resources/dist/filament-toolbox.css'),
-            Js::make('filament-toolbox-scripts', __DIR__ . '/../resources/dist/filament-toolbox.js'),
+            // Css::make('filament-toolbox-styles', __DIR__ . '/../resources/dist/filament-toolbox.css'),
+            // Js::make('filament-toolbox-scripts', __DIR__ . '/../resources/dist/filament-toolbox.js'),
         ];
     }
 
@@ -113,9 +108,7 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
      */
     protected function getCommands(): array
     {
-        return [
-            FilamentToolboxCommand::class,
-        ];
+        return [];
     }
 
     /**
@@ -140,15 +133,5 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
     protected function getScriptData(): array
     {
         return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getMigrations(): array
-    {
-        return [
-            'create_filament-toolbox_table',
-        ];
     }
 }
