@@ -19,7 +19,7 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'filament-toolbox';
 
-    public static string $viewNamespace = 'filament-toolbox';
+    public static string $viewNamespace = 'toolbox';
 
     public function configurePackage(Package $package): void
     {
