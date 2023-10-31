@@ -1,5 +1,7 @@
 @php
     use Filament\Tables\Columns\IconColumn\IconColumnSize;
+
+    $state = $getState();
 @endphp
 
 <div
@@ -9,7 +11,7 @@
             ->class('flex flex-wrap w-full px-3 py-4')
     }}
 >
-    @if (count($state = $getState()))
+    @if (count($flags = $getFlags($state)))
         <x-filament::grid
             :default="$getColumns('default')"
             :sm="$getColumns('sm')"
@@ -19,20 +21,24 @@
             :two-xl="$getColumns('2xl')"
             class="gap-2"
         >
-            @foreach ($state as $indicator)
-                @if ($icon = $getIcon($indicator))
+            @foreach ($flags as $flag)
+                @php
+                    $isActive = data_get($state, $flag->getName(), false);
+                @endphp
+
+                @if ($icon = $getIcon($flag, $isActive))
                     @php
-                        $color = $getColor($indicator) ?? 'gray';
-                        $size = $getSize($indicator) ?? IconColumnSize::Medium;
-                        $tooltip = $getIndicatorTooltip($indicator);
-                        $url = $getIndicatorUrl($indicator);
+                        $color = $getColor($flag, $isActive) ?? 'gray';
+                        $size = $getSize($flag, $isActive) ?? IconColumnSize::Medium;
+                        $tooltip = $getIndicatorTooltip($flag, $isActive);
+                        $url = $getFlagUrl($flag, $isActive);
                         $tag = $url ? 'a' : 'span';
                     @endphp
 
                     <{{ $tag }}
                         @if($url)
                             href="{{ $url }}"
-                            {{ $shouldOpenIndicatorUrlInNewTab($indicator) ? 'target="_blank"' : null }}
+                            {{ $shouldOpenFlagUrlInNewTab($flag, $isActive) ? 'target="_blank"' : null }}
 
                             @class([
                                 match ($color) {
