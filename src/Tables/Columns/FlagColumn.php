@@ -46,7 +46,7 @@ class FlagColumn extends Column
 
     public function getActiveIcon(): string
     {
-        return $this->evaluate($this->activeIcon) ?? '';
+        return $this->evaluate($this->activeIcon) ?? 'heroicon-o-check-circle';
     }
 
     public function inactiveIcon(string | Closure | null $icon): static
@@ -58,7 +58,7 @@ class FlagColumn extends Column
 
     public function getInactiveIcon(): string
     {
-        return $this->evaluate($this->inactiveIcon) ?? '';
+        return $this->evaluate($this->inactiveIcon) ?? 'heroicon-o-x-circle';
     }
 
     public function activeColor(string | array | Closure | null $color): static
