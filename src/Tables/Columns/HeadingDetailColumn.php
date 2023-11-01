@@ -34,17 +34,17 @@ class HeadingDetailColumn extends Column
 
     protected string | Closure | null $detailWordLimitEnd = null;
 
-    protected bool | Closure $showHeadingToolTipWhenLimited = true;
+    protected bool | Closure $showHeadingTooltipWhenLimited = true;
 
-    protected bool | Closure $showDetailToolTipWhenLimited = true;
+    protected bool | Closure $showDetailTooltipWhenLimited = true;
 
     protected ?Closure $formatHeadingStateUsing = null;
 
     protected ?Closure $formatDetailStateUsing = null;
 
-    public function shouldShowHeadingToolTip(mixed $state): bool
+    public function shouldShowHeadingTooltip(mixed $state): bool
     {
-        if ($this->evaluate($this->showHeadingToolTipWhenLimited) === false) {
+        if ($this->evaluate($this->showHeadingTooltipWhenLimited) === false) {
             return false;
         }
 
@@ -74,9 +74,9 @@ class HeadingDetailColumn extends Column
         return $this->evaluate($this->headingWordLimit);
     }
 
-    public function shouldShowDetailToolTip(mixed $state): bool
+    public function shouldShowDetailTooltip(mixed $state): bool
     {
-        if ($this->evaluate($this->showDetailToolTipWhenLimited) === false) {
+        if ($this->evaluate($this->showDetailTooltipWhenLimited) === false) {
             return false;
         }
 
@@ -93,12 +93,12 @@ class HeadingDetailColumn extends Column
         return $this->evaluate($this->detailWordLimit);
     }
 
-    public function shouldShowDetailToolTipWhenLimited(): bool
+    public function shouldShowDetailTooltipWhenLimited(): bool
     {
-        return $this->evaluate($this->showDetailToolTipWhenLimited);
+        return $this->evaluate($this->showDetailTooltipWhenLimited);
     }
 
-    public function showToolTipWhenLimited(bool | Closure $condition = true): static
+    public function showTooltipWhenLimited(bool | Closure $condition = true): static
     {
         $this->showDetailTooltipWhenLimited($condition);
         $this->showHeadingTooltipWhenLimited($condition);
@@ -108,14 +108,14 @@ class HeadingDetailColumn extends Column
 
     public function showDetailTooltipWhenLimited(bool | Closure $condition = true): static
     {
-        $this->showDetailToolTipWhenLimited = $condition;
+        $this->showDetailTooltipWhenLimited = $condition;
 
         return $this;
     }
 
     public function showHeadingTooltipWhenLimited(bool | Closure $condition = true): static
     {
-        $this->showHeadingToolTipWhenLimited = $condition;
+        $this->showHeadingTooltipWhenLimited = $condition;
 
         return $this;
     }
@@ -158,6 +158,10 @@ class HeadingDetailColumn extends Column
 
     public function getHeading(): ?string
     {
+        if ($this->heading === null) {
+            return $this->getState();
+        }
+
         return $this->evaluate($this->heading);
     }
 

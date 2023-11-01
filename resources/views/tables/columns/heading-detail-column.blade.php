@@ -5,20 +5,20 @@
     $formattedHeading = $formatHeadingState($heading);
     $formattedDetail = $formatDetailState($detail);
 
-    $showHeadingToolTip = $shouldShowHeadingToolTip($heading);
-    $showDetailToolTip = $shouldShowDetailToolTip($detail);
+    $showHeadingTooltip = $shouldShowHeadingTooltip($heading);
+    $showDetailTooltip = $shouldShowDetailTooltip($detail);
 @endphp
 
 <div
     class="px-3 py-4 flex flex-col"
-    @if($showHeadingToolTip || $showDetailToolTip)
+    @if($showHeadingTooltip || $showDetailTooltip)
         x-data="{}"
     @endif
 >
 
     <span
         class="font-bold"
-        @if($showHeadingToolTip)
+        @if($showHeadingTooltip)
             x-tooltip="{ content: @js($heading), theme: $store.theme }"
         @endif
     >
@@ -26,7 +26,7 @@
     </span>
     <span
         class="text-sm"
-        @if($showDetailToolTip)
+        @if($showDetailTooltip)
             x-tooltip="{ content: @js($detail), theme: $store.theme }"
         @endif
     >
