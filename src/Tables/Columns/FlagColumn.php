@@ -48,9 +48,9 @@ class FlagColumn extends Column
             $sizeMultiplier = match ($this->getSize($this->getState())) {
                 IconColumnSize::ExtraSmall, 'xs' => .75,
                 IconColumnSize::Small, 'sm' => 1,
-                IconColumnSize::Medium, 'md' => 1.25,
                 IconColumnSize::Large, 'lg' => 1.5,
                 IconColumnSize::ExtraLarge, 'xl' => 1.75,
+                default => 1.25
             };
 
             return [
