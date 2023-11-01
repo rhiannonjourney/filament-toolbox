@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 
 class HeadingDetailColumn extends Column
 {
+    use CanHideColumnHeader;
+
     protected string $view = 'toolbox::tables.columns.heading-detail-column';
 
     protected string | Closure | null $heading = null;

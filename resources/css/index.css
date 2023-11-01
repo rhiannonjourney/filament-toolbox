@@ -1,1 +1,35 @@
 @import '../../vendor/filament/filament/resources/css/theme.css';
+
+.filament-toolbox-hidden-column-header > span {
+    display: none;
+}
+
+@screen sm {
+    th.filament-toolbox-flag-column {
+        width: var(--ft-fc-w-sm);
+    }
+}
+
+@screen md {
+    th.filament-toolbox-flag-column {
+        width: var(--ft-fc-w-md);
+    }
+}
+
+@screen lg {
+    th.filament-toolbox-flag-column {
+        width: var(--ft-fc-w-lg);
+    }
+}
+
+@screen xl {
+    th.filament-toolbox-flag-column {
+        width: var(--ft-fc-w-xl);
+    }
+}
+
+@screen 2xl {
+    th.filament-toolbox-flag-column {
+        width: var(--ft-fc-w-2xl);
+    }
+}

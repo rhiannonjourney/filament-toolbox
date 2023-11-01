@@ -98,8 +98,9 @@ class FilamentToolboxServiceProvider extends PackageServiceProvider
     {
         return [
             // AlpineComponent::make('filament-toolbox', __DIR__ . '/../resources/dist/components/filament-toolbox.js'),
-            // Css::make('filament-toolbox-styles', __DIR__ . '/../resources/dist/filament-toolbox.css'),
             // Js::make('filament-toolbox-scripts', __DIR__ . '/../resources/dist/filament-toolbox.js'),
+
+            Css::make('filament-toolbox-styles', __DIR__ . '/../resources/dist/filament-toolbox.css'),
         ];
     }
 

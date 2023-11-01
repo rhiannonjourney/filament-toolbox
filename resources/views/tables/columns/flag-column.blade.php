@@ -2,6 +2,7 @@
     use Filament\Tables\Columns\IconColumn\IconColumnSize;
 
     $state = $getState();
+    $size = $getSize($state);
 @endphp
 
 <div
@@ -29,7 +30,6 @@
                 @if ($icon = $getIcon($flag, $isActive))
                     @php
                         $color = $getColor($flag, $isActive) ?? 'gray';
-                        $size = $getSize($flag, $isActive) ?? IconColumnSize::Medium;
                         $tooltip = $getIndicatorTooltip($flag, $isActive);
                         $url = $getFlagUrl($flag, $isActive);
                         $tag = $url ? 'a' : 'span';
@@ -77,7 +77,6 @@
                                     IconColumnSize::Medium, 'md' => 'h-5 w-5',
                                     IconColumnSize::Large, 'lg' => 'h-6 w-6',
                                     IconColumnSize::ExtraLarge, 'xl' => 'h-7 w-7',
-                                    default => $size,
                                 },
                             ])
                         />

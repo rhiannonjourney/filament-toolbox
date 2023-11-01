@@ -10,6 +10,7 @@ use UnexpectedJourney\FilamentToolbox\Tables\Columns\FlagColumn\Flag;
 
 class FlagColumn extends Column
 {
+    use CanHideColumnHeader;
     use HasColumns;
 
     protected string $view = 'toolbox::tables.columns.flag-column';
@@ -22,19 +23,53 @@ class FlagColumn extends Column
 
     protected string | array | Closure | null $activeColor = null;
 
-    protected IconColumnSize | string | Closure | null $size = null;
+    protected IconColumnSize | Closure | null $size = null;
 
     protected bool | Closure $showTooltips = false;
 
     protected array | Closure | null $flags = null;
 
-    public function configure(): static
+    public function setUp(): void
     {
-        parent::configure();
+        parent::setUp();
 
         $this->columns(['default' => 3]);
 
-        return $this;
+        $this->extraHeaderAttributes(function () {
+            $defaultColumns = $this->getColumns('default');
+            $columns = [
+                'sm' => $this->getColumns('sm'),
+                'md' => $this->getColumns('md'),
+                'lg' => $this->getColumns('lg'),
+                'xl' => $this->getColumns('xl'),
+                '2xl' => $this->getColumns('2xl'),
+            ];
+
+            $sizeMultiplier = match ($this->getSize($this->getState())) {
+                IconColumnSize::ExtraSmall, 'xs' => .75,
+                IconColumnSize::Small, 'sm' => 1,
+                IconColumnSize::Medium, 'md' => 1.25,
+                IconColumnSize::Large, 'lg' => 1.5,
+                IconColumnSize::ExtraLarge, 'xl' => 1.75,
+            };
+
+            return [
+                'class' => 'filament-toolbox-flag-column',
+                'style' => collect($columns)
+                    ->map(function (?int $columnCount, string $breakpoint) use ($defaultColumns, $sizeMultiplier) {
+                        $columnCount = $columnCount ?? $defaultColumns;
+                        $totalPotentialIconsWidth = $columnCount * $sizeMultiplier;
+                        $gap = $columnCount - 1 * .5;
+                        $padding = 1.5;
+
+                        return sprintf(
+                            '--ft-fc-w-%s: %srem;',
+                            $breakpoint,
+                            $totalPotentialIconsWidth + $gap + $padding
+                        );
+                    })->join('; ', ';'),
+            ];
+        });
     }
 
     public function activeIcon(string | Closure | null $icon): static
@@ -96,7 +131,7 @@ class FlagColumn extends Column
     {
         return $this->evaluate($this->size, [
             'state' => $state,
-        ]);
+        ]) ?? IconColumnSize::Medium;
     }
 
     public function flags(array | Closure $flags): static
