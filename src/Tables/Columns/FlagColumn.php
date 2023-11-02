@@ -25,9 +25,11 @@ class FlagColumn extends Column
 
     protected IconColumnSize | Closure | null $size = null;
 
-    protected bool | Closure $showTooltips = false;
+    protected bool | Closure | null $showTooltips = null;
 
     protected array | Closure | null $flags = null;
+
+    protected bool | Closure | null $showInactive = null;
 
     public function setUp(): void
     {
@@ -143,13 +145,28 @@ class FlagColumn extends Column
 
     public function getFlags(mixed $state): array
     {
-        $indicators = $this->evaluate($this->flags) ?? [];
+        $flags = $this->evaluate($this->flags) ?? [];
+        $showInactive = $this->evaluate($this->showInactive) ?? false;
 
-        return collect($indicators)
-            ->filter(function (Flag $flag) use ($state): bool {
-                return $this->evaluate($flag->shouldShowWhenInactive()) || data_get($state, $flag->getName(), false);
+        return collect($flags)
+            ->filter(function (Flag $flag) use ($state, $showInactive): bool {
+                $active = data_get($state, $flag->getName(), false);
+                $alwaysShowCurrentFlag = $this->evaluate($flag->shouldShowWhenInactive());
+
+                if (is_bool($alwaysShowCurrentFlag)) {
+                    return $alwaysShowCurrentFlag;
+                }
+
+                return $showInactive || $active;
             })
             ->all();
+    }
+
+    public function showInactive(bool | Closure $condition = true): static
+    {
+        $this->showInactive = $condition;
+
+        return $this;
     }
 
     public function showTooltips(bool | Closure $condition = true): static
