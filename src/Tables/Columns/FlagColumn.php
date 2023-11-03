@@ -38,14 +38,14 @@ class FlagColumn extends Column
         $this->columns(['default' => 3]);
 
         $this->extraHeaderAttributes(function () {
-            $defaultColumns = $this->getColumns('default');
-            $columns = [
+            $columns = collect([
+                'default' => $this->getColumns('default'),
                 'sm' => $this->getColumns('sm'),
                 'md' => $this->getColumns('md'),
                 'lg' => $this->getColumns('lg'),
                 'xl' => $this->getColumns('xl'),
                 '2xl' => $this->getColumns('2xl'),
-            ];
+            ])->filter();
 
             $sizeMultiplier = match ($this->getSize($this->getState())) {
                 IconColumnSize::ExtraSmall, 'xs' => .75,
@@ -56,12 +56,20 @@ class FlagColumn extends Column
             };
 
             return [
-                'class' => 'filament-toolbox-flag-column',
-                'style' => collect($columns)
-                    ->map(function (?int $columnCount, string $breakpoint) use ($defaultColumns, $sizeMultiplier) {
-                        $columnCount = $columnCount ?? $defaultColumns;
+                'class' => $columns
+                    ->map(fn (?int $columnCount, string $breakpoint): string => match ($breakpoint) {
+                        'default' => 'min-w-[var(--ft-fc-w-default)] w-[var(--ft-fc-w-default)]',
+                        'sm' => 'sm:w-[var(--ft-fc-w-sm)]',
+                        'md' => 'md:w-[var(--ft-fc-w-md)]',
+                        'lg' => 'lg:w-[var(--ft-fc-w-lg)]',
+                        'xl' => 'xl:w-[var(--ft-fc-w-xl)]',
+                        '2xl' => '2xl:w-[var(--ft-fc-w-2xl)]',
+                    })
+                    ->join(' '),
+                'style' => $columns
+                    ->map(function (?int $columnCount, string $breakpoint) use ($sizeMultiplier) {
                         $totalPotentialIconsWidth = $columnCount * $sizeMultiplier;
-                        $gap = $columnCount - 1 * .5;
+                        $gap = ($columnCount - 1) * .5;
                         $padding = 1.5;
 
                         return sprintf(
@@ -69,7 +77,8 @@ class FlagColumn extends Column
                             $breakpoint,
                             $totalPotentialIconsWidth + $gap + $padding
                         );
-                    })->join('; ', ';'),
+                    })
+                    ->join('; ', ';'),
             ];
         });
     }
