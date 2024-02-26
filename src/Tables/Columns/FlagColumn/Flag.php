@@ -3,12 +3,10 @@
 namespace UnexpectedJourney\FilamentToolbox\Tables\Columns\FlagColumn;
 
 use Closure;
-use Filament\Support\Concerns\Configurable;
+use Filament\Support\Components\Component;
 
-class Flag
+class Flag extends Component
 {
-    use Configurable;
-
     protected string $name;
 
     protected string | Closure | null $icon = null;
@@ -25,13 +23,13 @@ class Flag
 
     protected string | array | Closure | null $inactiveColor = null;
 
-    final public function __construct(string $name, string | Closure $icon = null)
+    final public function __construct(string $name, string | Closure | null $icon = null)
     {
         $this->name($name);
         $this->icon($icon);
     }
 
-    public static function make(string $name, string | Closure $icon = null): static
+    public static function make(string $name, string | Closure | null $icon = null): static
     {
         $static = app(static::class, [
             'name' => $name,
@@ -91,7 +89,7 @@ class Flag
         return $this->tooltip;
     }
 
-    public function url(string | Closure | null $url, bool | Closure $openInNewTab = null): static
+    public function url(string | Closure | null $url, bool | Closure | null $openInNewTab = null): static
     {
         $this->url = $url;
 
