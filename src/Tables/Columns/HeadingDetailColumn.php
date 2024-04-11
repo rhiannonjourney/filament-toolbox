@@ -25,7 +25,14 @@ class HeadingDetailColumn extends Column
 
     protected string | Closure | null $headingWordLimitEnd = null;
 
-    // New Code
+    protected bool | Closure $isHeadingCopyable = false;
+
+    protected string | Closure | null $headingCopyableState = null;
+
+    protected string | Closure | null $headingCopyMessage = null;
+
+    protected int | Closure | null $headingCopyMessageDuration = null;
+
     protected int | Closure | null $detailCharacterLimit = null;
 
     protected string | Closure | null $detailCharacterLimitEnd = null;
@@ -41,6 +48,14 @@ class HeadingDetailColumn extends Column
     protected ?Closure $formatHeadingStateUsing = null;
 
     protected ?Closure $formatDetailStateUsing = null;
+
+    protected bool | Closure $isDetailCopyable = false;
+
+    protected string | Closure | null $detailCopyableState = null;
+
+    protected string | Closure | null $detailCopyMessage = null;
+
+    protected int | Closure | null $detailCopyMessageDuration = null;
 
     public function shouldShowHeadingTooltip(mixed $state): bool
     {
@@ -287,5 +302,125 @@ class HeadingDetailColumn extends Column
     public function getDetailWordLimitEnd(): ?string
     {
         return $this->evaluate($this->detailWordLimitEnd);
+    }
+
+    public function headingCopyable(bool | Closure $condition = true): static
+    {
+        $this->isHeadingCopyable = $condition;
+
+        return $this;
+    }
+
+    public function headingCopyableState(string | Closure | null $state): static
+    {
+        $this->headingCopyableState = $state;
+
+        return $this;
+    }
+
+    public function headingCopyMessage(string | Closure | null $message): static
+    {
+        $this->headingCopyMessage = $message;
+
+        return $this;
+    }
+
+    public function headingCopyMessageDuration(int | Closure | null $duration): static
+    {
+        $this->headingCopyMessageDuration = $duration;
+
+        return $this;
+    }
+
+    public function isHeadingCopyable(mixed $state): bool
+    {
+        return (bool) $this->evaluate($this->isHeadingCopyable, [
+            'state' => $state,
+        ]);
+    }
+
+    public function getHeadingCopyableState(mixed $state): ?string
+    {
+        return $this->evaluate($this->headingCopyableState, [
+            'state' => $state,
+        ]);
+    }
+
+    public function getHeadingCopyMessage(mixed $state): string
+    {
+        return $this->evaluate($this->headingCopyMessage, [
+            'state' => $state,
+        ]) ?? __('filament::components/copyable.messages.copied');
+    }
+
+    public function getHeadingCopyMessageDuration(mixed $state): int
+    {
+        return $this->evaluate($this->headingCopyMessageDuration, [
+            'state' => $state,
+        ]) ?? 2000;
+    }
+
+    public function detailCopyable(bool | Closure $condition = true): static
+    {
+        $this->isDetailCopyable = $condition;
+
+        return $this;
+    }
+
+    public function detailCopyableState(string | Closure | null $state): static
+    {
+        $this->detailCopyableState = $state;
+
+        return $this;
+    }
+
+    public function detailCopyMessage(string | Closure | null $message): static
+    {
+        $this->detailCopyMessage = $message;
+
+        return $this;
+    }
+
+    public function detailCopyMessageDuration(int | Closure | null $duration): static
+    {
+        $this->detailCopyMessageDuration = $duration;
+
+        return $this;
+    }
+
+    public function isDetailCopyable(mixed $state): bool
+    {
+        return (bool) $this->evaluate($this->isDetailCopyable, [
+            'state' => $state,
+        ]);
+    }
+
+    public function getDetailCopyableState(mixed $state): ?string
+    {
+        return $this->evaluate($this->detailCopyableState, [
+            'state' => $state,
+        ]);
+    }
+
+    public function getDetailCopyMessage(mixed $state): string
+    {
+        return $this->evaluate($this->detailCopyMessage, [
+            'state' => $state,
+        ]) ?? __('filament::components/copyable.messages.copied');
+    }
+
+    public function getDetailCopyMessageDuration(mixed $state): int
+    {
+        return $this->evaluate($this->detailCopyMessageDuration, [
+            'state' => $state,
+        ]) ?? 2000;
+    }
+
+    public function copyable(bool | Closure $condition = true): static
+    {
+        $this->isHeadingCopyable = $condition;
+        $this->isDetailCopyable = $condition;
+
+        return $this;
     }
 }
